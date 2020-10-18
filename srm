@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ -e $1 ]
+then
+	echo "$1 exists!"
+	recycle_path = "~/RECYCLE"
+	if [ -d $recycle_path ]
+		then echo "Recycle exists"
+	else
+		mkdir ~/RECYCLE
+		echo "RECYCLE dir created"
+	fi
+
+else
+	echo "Incorrect argument! Write the correct one!"
+fi
