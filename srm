@@ -12,6 +12,10 @@ then
 		echo "RECYCLE dir created"
 	fi
 
+	gzip $1
+	mv $1.gz ~/RECYCLE
+	echo "$1 moved to RECYCLE"
+
 else
 	echo "Incorrect file name!"
 fi
