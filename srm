@@ -1,0 +1,49 @@
+#!/bin/bash
+
+path=~/RECYCLE/
+files="${path}*"
+
+if [ -e $1 ]
+then
+	echo "File '$1' exists!"
+	recycle_path=~/RECYCLE
+	if [ ! -d $recycle_path ]
+	then
+		mkdir ~/RECYCLE
+		echo "RECYCLE directory was created"
+	fi
+
+	gzip $1
+	mv $1.gz ~/RECYCLE
+	echo "File '$1' moved to RECYCLE"
+
+else
+	echo "File '$1' not found!"
+fi
+
+echo ''
+
+#checking RECYCLE for files with exceeded lifetime (7 days)
+#delete these files
+
+#echo "Current datetime is $(date -R). From Epoch == $(date +%s)"
+#echo ''
+
+for file in $files
+do
+	cur_date=$(date +%s)
+	base_name="$(basename -- $file)"
+
+	file_dt=$(stat $file -c %Z)
+	dif=$(($cur_date-$file_dt))
+
+	#echo "File '$base_name' was moved to RECYCLE $dif seconds ago"
+
+	#delete if lifitime exceeded
+	if [ $dif -gt 604800 ]
+	then
+		rm $file
+		echo "File '$base_name' was deleted from RECYCLE"
+	fi
+
+done
